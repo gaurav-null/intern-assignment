@@ -92,7 +92,7 @@ router.post('/login', async (req,res)=>{
     }
     const token = genrateToken(userData.id);
     res.cookie('token', token, cookieOption);
-    res.json({user:{id: userData.id, username: userData.name}, token: token})
+    res.json({user:{id: userData.id, username: userData.name}, token})
 })
 
 router.post('/logout' , async (req,res)=>{
