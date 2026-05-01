@@ -67,7 +67,7 @@ router.post('/register' , async (req,res) => {
     const newUser = await pool.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3) returning *', [trimmedName, trimmedEmail, hashedPassword]); 
     const token = genrateToken(newUser.rows[0].id);
     res.cookie('token', token, cookieOption);
-    res.json({user:{id: newUser.rows[0].id, username: newUser.rows[0].name}})
+    res.json({user:{id: newUser.rows[0].id, username: newUser.rows[0].name}, token})
 })
 
 router.post('/login', async (req,res)=>{
