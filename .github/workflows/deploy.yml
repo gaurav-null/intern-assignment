@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'frontend/**'
-      - '.github/workflows/deploy.yml'
 
 jobs:
   deploy:
@@ -19,9 +16,13 @@ jobs:
         with:
           node-version: '18'
       
-      - run: cd frontend && npm install
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm install
       
-      - run: cd frontend && npm run build
+      - name: Build
+        working-directory: ./frontend
+        run: npm run build
       
       - uses: peaceiris/actions-gh-pages@v3
         with:
