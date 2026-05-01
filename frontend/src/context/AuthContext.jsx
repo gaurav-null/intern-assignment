@@ -32,14 +32,16 @@ export function AuthProvider({ children }) {
     };
 
   const register = async (name, email, password) => {
-    const res = await api.post('/api/v1/auth/register', { name, email, password });
-    setUser(res.data.user);
-  };
+  const res = await api.post('/api/v1/auth/register', { name, email, password });
+  localStorage.setItem('token', res.data.token);  // Add this
+  setUser(res.data.user);
+};
 
   const logout = async () => {
-    await api.post('/api/v1/auth/logout');
-    setUser(null);
-  };
+  await api.post('/api/v1/auth/logout');
+  localStorage.removeItem('token');  // Add this
+  setUser(null);
+};
 
   return (
     <AuthContext.Provider value={{ user, loading, login, register, logout }}>
