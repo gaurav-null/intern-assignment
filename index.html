@@ -5,7 +5,14 @@
     <link rel="icon" type="image/svg+xml" href="/intern-assignment/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>frontend</title>
-    <script type="module" crossorigin src="/intern-assignment/assets/index-DQR_jCsP.js"></script>
+    <script>
+      if (sessionStorage.redirect) {
+        const redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        window.location.replace(redirect);
+      }
+    </script>
+    <script type="module" crossorigin src="/intern-assignment/assets/index-B8G-FFdl.js"></script>
   </head>
   <body>
     <div id="root"></div>
