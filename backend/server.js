@@ -13,14 +13,18 @@ const app = express();
 const allowedOrigins = (process.env.CLIENT_URL || '').split(',').map(url => url.trim());
 
 app.use(cors({
-    origin: (origin, callback) => {
+    origin: function (origin, callback) {
+        const clientUrl = process.env.CLIENT_URL;
+        console.log('CLIENT_URL env var:', clientUrl);
         console.log('Incoming origin:', origin);
-        console.log('Allowed origins:', allowedOrigins);
         
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (!origin || origin === 'https://gaurav-null.github.io' || origin === 'https://gaurav-null.github.io/intern-assignment') {
+            callback(null, true);
+        } else if (clientUrl && clientUrl.includes(origin)) {
             callback(null, true);
         } else {
-            callback(new Error('Not allowed by CORS'));
+            console.log('CORS rejected:', origin);
+            callback(null, true); // Allow anyway for debugging
         }
     },
     credentials: true,
