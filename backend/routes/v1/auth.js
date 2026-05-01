@@ -12,14 +12,12 @@ const cookieOption = {
     maxAge: 30*24*60*60*1000
 }
 
-// Validation helpers
 const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 };
 
 const isValidPassword = (password) => {
-    // Min 8 chars, at least 1 uppercase, 1 lowercase, 1 number
     return password.length >= 8 && 
            /[A-Z]/.test(password) && 
            /[a-z]/.test(password) && 
@@ -94,7 +92,7 @@ router.post('/login', async (req,res)=>{
     }
     const token = genrateToken(userData.id);
     res.cookie('token', token, cookieOption);
-    res.json({user:{id: userData.id, username: userData.name}})
+    res.json({user:{id: userData.id, username: userData.name}, token: token})
 })
 
 router.post('/logout' , async (req,res)=>{
