@@ -11,24 +11,23 @@ jobs:
     permissions:
       contents: write
 
-    defaults:
-      run:
-        working-directory: ./frontend  # ← set it once for ALL steps
-
     steps:
       - uses: actions/checkout@v3
+
+      - name: Debug - Show folder structure
+        run: find . -name "package.json" | head -20
 
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: ./frontend/package-lock.json
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./frontend
 
       - name: Build
         run: npm run build
+        working-directory: ./frontend
 
       - uses: peaceiris/actions-gh-pages@v3
         with:
