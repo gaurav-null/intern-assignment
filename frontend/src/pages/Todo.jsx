@@ -1,0 +1,70 @@
+import { useEffect, useState } from 'react';
+import api from '../api';
+import { useAuth } from '../context/AuthContext';
+
+export default function Todo() {
+  const { user, logout } = useAuth();
+  const [todos, setTodos] = useState([]);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+
+  const loadTodos = async () => {
+    const res = await api.get('/api/v2/todos');
+    setTodos(res.data);
+  };
+
+  useEffect(() => {
+    loadTodos();
+  }, []);
+
+  const addTodo = async (e) => {
+    e.preventDefault();
+    const res = await api.post('/api/v2/todos', { title, description });
+    setTodos([res.data, ...todos]);
+    setTitle('');
+    setDescription('');
+  };
+
+  const toggleTodo = async (todo) => {
+    const res = await api.put(`/api/v2/todos/${todo.id}`, {
+      title: todo.title,
+      description: todo.description,
+      completed: !todo.completed,
+    });
+
+    setTodos(todos.map((t) => (t.id === todo.id ? res.data : t)));
+  };
+
+  const deleteTodo = async (id) => {
+    await api.delete(`/api/v2/todos/${id}`);
+    setTodos(todos.filter((t) => t.id !== id));
+  };
+
+  return (
+    <div>
+      <h1>Todo App</h1>
+      <p>Welcome {user?.name}</p>
+      <button onClick={logout}>Logout</button>
+
+      <form onSubmit={addTodo}>
+        <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Todo title" />
+        <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
+        <button type="submit">Add</button>
+      </form>
+
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+              {todo.title} - {todo.description}
+            </span>
+            <button onClick={() => toggleTodo(todo)}>
+              {todo.completed ? 'Undo' : 'Done'}
+            </button>
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
