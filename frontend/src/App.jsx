@@ -19,6 +19,8 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+	  {/* Catch-all: redirect unknown routes to login */}
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 }
