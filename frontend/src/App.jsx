@@ -18,7 +18,8 @@ export default function App() {
             <Todo />
           </ProtectedRoute>
         }
-      />
+      /> 
+	<Route path="*" element={<Navigate replace to="/login" />} />  
     </Routes>
   );
 }
