@@ -1,11 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <script>
-    const path = '/' + window.location.pathname.split('/').slice(2).join('/');
-    sessionStorage.redirect = path;
-  </script>
-  <meta http-equiv="refresh" content="0;url=/intern-assignment/">
-</head>
-<body></body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/intern-assignment/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>frontend</title>
+    <script>
+      if (sessionStorage.redirect) {
+        const redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        window.location.replace(redirect);
+      }
+    </script>
+    <script type="module" crossorigin src="/intern-assignment/assets/index-B2G62jiA.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>
